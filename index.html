@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<title>Manulife VHIS — Premium Quotation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:      #00843D;
+  --green-deep: #005C2B;
+  --green-pale: #E8F5EE;
+  --green-mid:  #B8DECA;
+  --navy:       #00205B;
+  --navy-pale:  #EEF1F8;
+  --navy-mid:   #C5CEDF;
+  --gold:       #C9974A;
+  --gold-pale:  #FAF3E8;
+  --ink:        #0F1923;
+  --ink-mid:    #4A5568;
+  --ink-light:  #8896A4;
+  --rule:       #E4E9EE;
+  --bg:         #F7F8FA;
+  --surface:    #FFFFFF;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-hover: 0 2px 6px rgba(0,0,0,.08), 0 8px 28px rgba(0,0,0,.10);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-logo { display: flex; align-items: center; gap: 12px; }
+.logo-mark { display: flex; flex-direction: column; gap: 3.5px; }
+.logo-mark span { display: block; background: var(--green); border-radius: 2px; }
+.logo-mark span:nth-child(1) { width: 22px; height: 3px; }
+.logo-mark span:nth-child(2) { width: 15px; height: 3px; }
+.logo-mark span:nth-child(3) { width: 9px; height: 3px; }
+.logo-name { font-family: var(--serif); color: #fff; font-size: 18px; line-height: 1; }
+.logo-name small { display: block; font-family: var(--sans); font-size: 9px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: 3px; }
+.topbar-center { font-family: var(--sans); color: rgba(255,255,255,.5); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.lang-toggle { display: flex; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; overflow: hidden; }
+.lang-btn { font-family: var(--sans); background: none; border: none; color: rgba(255,255,255,.55); font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 5px 14px; cursor: pointer; transition: all .2s; }
+.lang-btn.on { background: var(--green); color: #fff; }
+.ai-live { display: flex; align-items: center; gap: 6px; background: rgba(0,132,61,.15); border: 1px solid rgba(0,132,61,.3); border-radius: 20px; padding: 4px 12px; }
+.ai-live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 60%{opacity:.2} }
+.ai-live span { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #6ECFA0; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--navy);
+  padding: 56px 40px 48px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 90% 50%, rgba(0,132,61,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 960px; margin: 0 auto; position: relative; }
+.hero-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); color: #fff; line-height: 1.15; font-weight: 400; max-width: 560px; }
+.hero h1 em { font-style: italic; color: rgba(255,255,255,.55); }
+.hero-sub { margin-top: 14px; font-size: 14px; color: rgba(255,255,255,.45); font-weight: 300; max-width: 440px; line-height: 1.7; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.hero-pill { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: rgba(255,255,255,.6); display: flex; align-items: center; gap: 6px; }
+.hero-pill svg { opacity: .6; }
+
+/* ── LAYOUT ── */
+.page { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+
+/* ── SECTION HEADER ── */
+.sec-head { margin-bottom: 20px; }
+.sec-num { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.sec-title { font-family: var(--serif); font-size: 22px; color: var(--navy); font-weight: 400; }
+.sec-divider { height: 1px; background: var(--rule); margin: 32px 0; }
+
+/* ── PLAN SELECTOR ── */
+.plan-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 32px; }
+@media(max-width:720px) { .plan-grid { grid-template-columns: 1fr 1fr; } }
+.plan-card {
+  background: var(--surface); border: 1.5px solid var(--rule);
+  border-radius: var(--radius); padding: 18px 16px 16px;
+  cursor: pointer; transition: all .22s cubic-bezier(.4,0,.2,1);
+  position: relative; overflow: hidden; text-align: left;
+}
+.plan-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--rule); transition: background .22s;
+}
+.plan-card:hover { border-color: var(--navy-mid); box-shadow: var(--shadow); transform: translateY(-2px); }
+.plan-card:hover::after { background: var(--navy); }
+.plan-card.on { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,132,61,.08), var(--shadow); }
+.plan-card.on::after { background: var(--green); }
+.plan-card.supp { border-style: dashed; }
+.plan-check {
+  position: absolute; top: 12px; right: 12px;
+  width: 20px; height: 20px; background: var(--green); border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+}
+.plan-check svg { width: 10px; height: 10px; stroke: #fff; stroke-width: 2.5; fill: none; }
+.plan-card.on .plan-check { display: flex; }
+.plan-tag { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px; }
+.plan-card.on .plan-tag { color: var(--green); }
+.plan-name { font-family: var(--serif); font-size: 18px; color: var(--navy); margin-bottom: 2px; line-height: 1.2; }
+.plan-cn { font-size: 11px; color: var(--ink-light); margin-bottom: 10px; }
+.plan-limit { font-size: 11px; color: var(--ink-mid); line-height: 1.5; }
+.plan-limit strong { color: var(--navy); font-weight: 600; }
+.supp-pill { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: #FFF3E6; color: var(--gold); border: 1px solid #F5D9B0; border-radius: 4px; padding: 2px 7px; margin-bottom: 6px; }
+
+/* ── FORM ── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+@media(max-width:720px) { .form-row { grid-template-columns: 1fr 1fr; } }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mid); }
+.field input, .field select {
+  background: var(--surface); border: 1.5px solid var(--rule);
+  border-radius: var(--radius-sm); padding: 10px 13px;
+  font-family: var(--sans); font-size: 14px; color: var(--ink);
+  transition: border-color .15s; outline: none; width: 100%;
+}
+.field input:focus, .field select:focus { border-color: var(--green); }
+.field .sub { font-size: 11px; color: var(--ink-light); margin-top: 2px; }
+.field.active select { border-color: var(--green); background: var(--green-pale); }
+#tierFg { display: none; }
+
+/* ── RESULT CARD ── */
+.result-wrap {
+  background: var(--surface); border: 1.5px solid var(--rule);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); margin-bottom: 28px;
+}
+.result-head {
+  background: var(--navy); padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.result-head-left { display: flex; flex-direction: column; gap: 2px; }
+.result-head-title { font-family: var(--serif); font-size: 16px; color: #fff; font-weight: 400; }
+.result-plan-badge { font-size: 10px; color: rgba(255,255,255,.45); font-weight: 400; letter-spacing: .5px; }
+.result-head-right { display: flex; align-items: center; gap: 8px; }
+.sync-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.8); font-family: var(--sans); font-size: 11px; font-weight: 600;
+  padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all .15s; letter-spacing: .5px;
+}
+.sync-btn:hover { background: rgba(255,255,255,.14); }
+.sync-btn svg { stroke: rgba(255,255,255,.7); }
+.result-body { padding: 24px; }
+.result-empty { text-align: center; padding: 40px 24px; color: var(--ink-light); font-size: 13px; }
+.result-empty-icon { font-size: 32px; margin-bottom: 12px; opacity: .4; }
+.prem-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+@media(max-width:600px) { .prem-grid { grid-template-columns: 1fr 1fr; } }
+.prem-box { border-radius: var(--radius-sm); padding: 16px 18px; }
+.prem-box.ann { background: var(--navy-pale); border: 1px solid var(--navy-mid); }
+.prem-box.mon { background: var(--green-pale); border: 1px solid var(--green-mid); }
+.prem-box.tax { background: var(--gold-pale); border: 1px solid #F0D5A8; }
+.prem-box-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.prem-box-amount { font-family: var(--serif); font-size: 26px; color: var(--navy); line-height: 1; }
+.prem-box-amount small { font-family: var(--sans); font-size: 12px; font-weight: 400; color: var(--ink-light); margin-left: 4px; }
+.prem-box.tax .prem-box-amount { color: var(--gold); }
+.prem-box-note { font-size: 11px; color: var(--ink-light); margin-top: 5px; }
+.result-info {
+  background: #FFFDF5; border: 1px solid #F0E5C8; border-radius: var(--radius-sm);
+  padding: 10px 14px; font-size: 12px; color: #8B6914; display: flex; gap: 8px; align-items: flex-start;
+}
+
+/* ── DOWNLOADS ── */
+.dl-wrap { background: var(--surface); border: 1.5px solid var(--rule); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 28px; display: none; }
+.dl-wrap.show { display: block; }
+.dl-head { padding: 16px 24px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; }
+.dl-head-left { display: flex; align-items: center; gap: 10px; }
+.dl-head-icon { width: 32px; height: 32px; background: var(--navy-pale); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.dl-head-title { font-family: var(--serif); font-size: 16px; color: var(--navy); }
+.dl-head-sub { font-size: 11px; color: var(--ink-light); margin-top: 1px; }
+.dl-source { font-size: 11px; color: var(--green); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.dl-body { padding: 16px 24px; }
+.dl-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+@media(max-width:680px) { .dl-grid { grid-template-columns: 1fr; } }
+.dl-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  text-decoration: none; color: var(--ink); background: var(--bg);
+  transition: all .18s; cursor: pointer;
+}
+.dl-item:hover { border-color: var(--navy); background: var(--navy-pale); text-decoration: none; }
+.dl-item:hover .dl-item-title { color: var(--navy); }
+.dl-icon-wrap { width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.dl-icon-wrap.pdf { background: #FFF0EF; }
+.dl-icon-wrap.web { background: var(--navy-pale); }
+.dl-icon-wrap.prem { background: var(--green-pale); }
+.dl-item-text { min-width: 0; }
+.dl-item-title { font-size: 12px; font-weight: 600; color: var(--ink-mid); margin-bottom: 2px; line-height: 1.3; }
+.dl-item-sub { font-size: 10px; color: var(--ink-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dl-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; padding: 2px 7px; border-radius: 4px; }
+.dl-badge.pdf { background: #FFF0EF; color: #C0392B; }
+.dl-badge.web { background: var(--navy-pale); color: var(--navy); }
+
+/* ── TAX PANEL ── */
+.tax-wrap { background: var(--surface); border: 1.5px solid var(--rule); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 28px; }
+.tax-head { background: var(--green-deep); padding: 16px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.tax-head-title { font-family: var(--serif); font-size: 16px; color: #fff; font-weight: 400; }
+.tax-head-sub { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; letter-spacing: .5px; }
+.tax-body { padding: 24px; }
+.tax-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+@media(max-width:600px) { .tax-inputs { grid-template-columns: 1fr; } }
+.tax-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 18px; }
+@media(max-width:600px) { .tax-metrics { grid-template-columns: 1fr; } }
+.tax-metric { border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; }
+.tax-metric.a { background: var(--green-deep); }
+.tax-metric.a .tm-label { color: rgba(255,255,255,.55); }
+.tax-metric.a .tm-value { color: #fff; }
+.tax-metric.b { background: var(--green-pale); border: 1px solid var(--green-mid); }
+.tax-metric.b .tm-label { color: var(--green-deep); }
+.tax-metric.b .tm-value { color: var(--green-deep); }
+.tax-metric.c { background: var(--gold-pale); border: 1px solid #F0D5A8; }
+.tax-metric.c .tm-label { color: var(--gold); }
+.tax-metric.c .tm-value { color: var(--gold); }
+.tm-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.tm-value { font-family: var(--serif); font-size: 22px; }
+.tm-sub { font-size: 10px; margin-top: 4px; opacity: .6; }
+.tax-bar-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--ink-light); margin-bottom: 6px; }
+.tax-bar-row span:last-child { font-weight: 700; color: var(--green); }
+.tax-track { background: var(--rule); border-radius: 4px; height: 6px; overflow: hidden; margin-bottom: 5px; }
+.tax-fill { height: 6px; background: var(--green); border-radius: 4px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+.tax-scale { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-light); margin-bottom: 16px; }
+.tax-callout { background: var(--green-pale); border-left: 3px solid var(--green); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; font-size: 12px; color: var(--green-deep); line-height: 1.6; }
+.tax-callout strong { font-weight: 600; }
+
+/* ── AI PANEL ── */
+.ai-wrap { background: var(--surface); border: 1.5px solid var(--rule); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 28px; }
+.ai-head { background: var(--navy); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+.ai-head-left { display: flex; align-items: center; gap: 10px; }
+.ai-head-icon { width: 32px; height: 32px; background: rgba(255,255,255,.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.ai-head-title { font-family: var(--serif); font-size: 16px; color: #fff; font-weight: 400; }
+.ai-head-sub { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 1px; }
+.ai-body { padding: 20px 24px; }
+.ai-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip {
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 20px;
+  padding: 5px 13px; font-size: 11px; font-weight: 500; color: var(--ink-mid);
+  cursor: pointer; transition: all .15s; font-family: var(--sans);
+}
+.chip:hover { background: var(--navy-pale); border-color: var(--navy-mid); color: var(--navy); }
+.ai-status { font-size: 12px; color: var(--ink-light); font-style: italic; margin-bottom: 12px; min-height: 18px; }
+.ai-input-row { display: flex; gap: 8px; }
+.ai-input {
+  flex: 1; border: 1.5px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 10px 14px; font-family: var(--sans); font-size: 13px; color: var(--ink); outline: none; transition: border-color .15s;
+}
+.ai-input:focus { border-color: var(--green); }
+.ai-send {
+  background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm);
+  padding: 10px 20px; font-family: var(--sans); font-size: 12px; font-weight: 600; cursor: pointer; transition: background .15s; white-space: nowrap;
+}
+.ai-send:hover { background: var(--green-deep); }
+.ai-send:disabled { background: var(--ink-light); cursor: not-allowed; }
+.ai-result {
+  margin-top: 14px; background: var(--bg); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 12px; line-height: 1.8; color: var(--ink); white-space: pre-wrap;
+  max-height: 300px; overflow-y: auto; display: none;
+}
+.ai-result.show { display: block; }
+
+/* ── COVERAGE ── */
+.cov-tabs { display: flex; border-bottom: 1px solid var(--rule); margin-bottom: 20px; overflow-x: auto; gap: 0; }
+.cov-tab {
+  padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--ink-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  white-space: nowrap; transition: all .15s;
+}
+.cov-tab:hover { color: var(--navy); }
+.cov-tab.on { color: var(--navy); border-bottom-color: var(--navy); }
+.cov-panel { display: none; }
+.cov-panel.on { display: block; }
+.cov-table-wrap { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+table.cov { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.cov thead tr { background: var(--navy); }
+table.cov th { color: rgba(255,255,255,.85); padding: 11px 12px; text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+table.cov th:not(:first-child) { text-align: center; width: 14%; }
+table.cov td { padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+table.cov td:not(:first-child) { text-align: center; }
+table.cov tr:last-child td { border-bottom: none; }
+table.cov tr:nth-child(even) td { background: var(--bg); }
+.td-main { font-weight: 600; color: var(--ink); }
+.td-sub { font-size: 10px; color: var(--ink-light); margin-top: 1px; }
+.yes { color: var(--green); font-weight: 700; font-size: 15px; }
+.no { color: #CBD5E0; font-size: 13px; }
+.val { color: var(--navy); font-weight: 600; }
+.val-g { color: var(--green-deep); font-weight: 700; }
+.sup-tag { color: var(--gold); font-size: 10px; font-weight: 600; }
+
+/* ── SUPP NOTE ── */
+.supp-alert { background: #FFF9F0; border: 1px solid #F5D9B0; border-left: 3px solid var(--gold); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; font-size: 12px; color: #7A4500; margin-bottom: 20px; display: none; line-height: 1.6; }
+.supp-alert.show { display: block; }
+
+/* ── KPI STRIP ── */
+.kpi-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 32px; }
+@media(max-width:720px) { .kpi-strip { grid-template-columns: 1fr 1fr; } }
+.kpi { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-sm); padding: 14px 16px; border-top: 2px solid var(--rule); transition: border-top-color .3s; }
+.kpi.highlight { border-top-color: var(--green); }
+.kpi-label { font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px; }
+.kpi-value { font-family: var(--serif); font-size: 17px; color: var(--navy); line-height: 1.2; }
+.kpi-sub { font-size: 11px; color: var(--ink-light); margin-top: 3px; }
+
+/* ── FOOTER ── */
+.footer { background: var(--navy); padding: 24px 40px; text-align: center; }
+.footer p { font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .5px; line-height: 1.8; }
+.footer strong { color: var(--green); font-weight: 600; }
+.footer a { color: rgba(255,255,255,.4); text-decoration: none; }
+.footer a:hover { color: rgba(255,255,255,.7); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.fade-up { animation: fadeUp .35s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark"><span></span><span></span><span></span></div>
+    <div class="logo-name">Manulife<small>Hong Kong</small></div>
+  </div>
+  <div class="topbar-center" id="topbarCenter">VHIS Premium Quotation</div>
+  <div class="topbar-right">
+    <div class="ai-live"><div class="ai-live-dot"></div><span>AI Live</span></div>
+    <div class="lang-toggle">
+      <button class="lang-btn on" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('zh',this)">中文</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow" data-en="Voluntary Health Insurance Scheme" data-zh="自願醫保計劃">Voluntary Health Insurance Scheme</div>
+    <h1 id="heroTitle">Manulife VHIS<br/><em>Premium &amp; Coverage Guide</em></h1>
+    <p class="hero-sub" id="heroSub">Four certified plans designed around your needs — from essential protection to comprehensive global cover.</p>
+    <div class="hero-pills">
+      <div class="hero-pill">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><path d="M6 4v3l2 1"/></svg>
+        <span data-en="Rates effective Dec 29, 2025" data-zh="費率於2025年12月29日生效">Rates effective Dec 29, 2025</span>
+      </div>
+      <div class="hero-pill">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l3 3 5-5"/></svg>
+        <span data-en="HK$8,000 VHIS tax deduction per insured" data-zh="每位受保人可享HK$8,000稅務扣除">HK$8,000 VHIS tax deduction per insured</span>
+      </div>
+      <div class="hero-pill">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><path d="M6 4v2l1.5 1.5"/></svg>
+        <span data-en="Guaranteed lifetime renewal" data-zh="終身保證續保">Guaranteed lifetime renewal</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="page">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi" id="kpiPlan"><div class="kpi-label" data-en="Selected Plan" data-zh="已選計劃">Selected Plan</div><div class="kpi-value" id="kpiPlanVal">—</div><div class="kpi-sub" data-en="Choose a plan below" data-zh="請在下方選擇">Choose a plan below</div></div>
+    <div class="kpi" id="kpiLimit"><div class="kpi-label" data-en="Annual Benefit Limit" data-zh="年度保障限額">Annual Benefit Limit</div><div class="kpi-value" id="kpiLimitVal">—</div><div class="kpi-sub" id="kpiLimitSub">—</div></div>
+    <div class="kpi" id="kpiType"><div class="kpi-label" data-en="Plan Type" data-zh="計劃類型">Plan Type</div><div class="kpi-value" id="kpiTypeVal">—</div><div class="kpi-sub" id="kpiTypeSub">—</div></div>
+    <div class="kpi highlight"><div class="kpi-label" data-en="Tax Deduction" data-zh="稅務扣除">Tax Deduction</div><div class="kpi-value">HK$8,000</div><div class="kpi-sub" data-en="Per insured · Per year" data-zh="每位受保人 · 每年">Per insured · Per year</div></div>
+  </div>
+
+  <!-- STEP 1: PLAN -->
+  <div class="sec-head">
+    <div class="sec-num" data-en="Step 01" data-zh="第一步">Step 01</div>
+    <div class="sec-title" data-en="Select your VHIS plan" data-zh="選擇自願醫保計劃">Select your VHIS plan</div>
+  </div>
+  <div class="plan-grid">
+    <div class="plan-card" onclick="selPlan('shelter',this)">
+      <div class="plan-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1"/></svg></div>
+      <div class="plan-tag" data-en="Standard Plan" data-zh="標準計劃">Standard Plan</div>
+      <div class="plan-name">Shelter</div>
+      <div class="plan-cn">守護計劃</div>
+      <div class="plan-limit"><strong>HK$420K</strong> <span data-en="annual limit" data-zh="年度保障限額">annual limit</span></div>
+    </div>
+    <div class="plan-card" onclick="selPlan('first',this)">
+      <div class="plan-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1"/></svg></div>
+      <div class="plan-tag" data-en="Flexi Plan · 3 Tiers" data-zh="靈活計劃 · 3個級別">Flexi Plan · 3 Tiers</div>
+      <div class="plan-name">First</div>
+      <div class="plan-cn">首選計劃</div>
+      <div class="plan-limit" data-en="Standard / Plus / Premier" data-zh="標準 / 增強 / 優越">Standard / Plus / Premier</div>
+    </div>
+    <div class="plan-card" onclick="selPlan('supreme',this)">
+      <div class="plan-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1"/></svg></div>
+      <div class="plan-tag" data-en="Flexi Plan · 3 Tiers" data-zh="靈活計劃 · 3個級別">Flexi Plan · 3 Tiers</div>
+      <div class="plan-name">Supreme</div>
+      <div class="plan-cn">晉悅計劃</div>
+      <div class="plan-limit"><span data-en="Up to" data-zh="最高">Up to</span> <strong>HK$30M</strong> <span data-en="annual limit" data-zh="年度保障限額">annual limit</span></div>
+    </div>
+    <div class="plan-card supp" onclick="selPlan('lite',this)">
+      <div class="plan-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1"/></svg></div>
+      <div class="supp-pill" data-en="Supplementary" data-zh="附加計劃">Supplementary</div>
+      <div class="plan-tag" data-en="Flexi · 3 Tiers" data-zh="靈活 · 3個級別">Flexi · 3 Tiers</div>
+      <div class="plan-name">Supreme Lite</div>
+      <div class="plan-cn">晉悅精簡</div>
+      <div class="plan-limit" data-en="Top-up for basic plan" data-zh="附加於基本計劃">Top-up for basic plan</div>
+    </div>
+  </div>
+
+  <div class="supp-alert" id="suppAlert">
+    <strong data-en="Supplementary plan note — " data-zh="附加計劃注意 — ">Supplementary plan note — </strong><span data-en="Supreme Lite must be attached to a designated basic VHIS plan. It provides top-up hospitalisation coverage with no sub-limits, up to HK$30M / US$3.75M per year, across 3 tiers with 4 deductible options." data-zh="晉悅精簡必須附加於指定基本自願醫保計劃。提供無分項限額住院保障，每年最高HK$3,000萬/US$375萬，設3個計劃級別及4個自付費選項。">Supreme Lite must be attached to a designated basic VHIS plan. It provides top-up hospitalisation coverage with no sub-limits, up to HK$30M / US$3.75M per year, across 3 tiers with 4 deductible options.</span>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- STEP 2: DETAILS -->
+  <div class="sec-head">
+    <div class="sec-num" data-en="Step 02" data-zh="第二步">Step 02</div>
+    <div class="sec-title" data-en="Enter your details" data-zh="輸入個人資料">Enter your details</div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label data-en="Age at Next Birthday" data-zh="最接近生日年齡">Age at Next Birthday</label>
+      <input type="number" id="ageIn" min="0" max="81" placeholder="e.g. 35" oninput="calc()"/>
+      <span class="sub" data-en="Ages 0 – 81" data-zh="年齡 0–81 歲">Ages 0 – 81</span>
+    </div>
+    <div class="field" id="tierFg">
+      <label data-en="Plan Tier" data-zh="計劃級別">Plan Tier</label>
+      <select id="tierSel" onchange="onTierChange()"><option value="">— Select tier —</option></select>
+      <span class="sub" data-en="Smart / Advance / Deluxe" data-zh="智選 / 精選 / 優選">Smart / Advance / Deluxe</span>
+    </div>
+    <div class="field" id="dedFg">
+      <label data-en="Annual Deductible (HKD)" data-zh="年度自付費（港元）">Annual Deductible (HKD)</label>
+      <select id="dedSel" onchange="calc()"><option value="">— Select plan first —</option></select>
+      <span class="sub" data-en="Higher deductible = lower premium" data-zh="自付費愈高，保費愈低">Higher deductible = lower premium</span>
+    </div>
+    <div class="field" id="genderFg">
+      <label data-en="Gender" data-zh="性別">Gender</label>
+      <select id="genderSel" onchange="calc()">
+        <option value="F" data-en="Female 女性" data-zh="女性">Female 女性</option>
+        <option value="M" data-en="Male 男性" data-zh="男性">Male 男性</option>
+      </select>
+      <span class="sub" id="genderNote" data-en="Shelter plan: gender-differentiated rates" data-zh="守護計劃：按性別收費">Shelter plan: gender-differentiated rates</span>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap">
+    <div class="result-head">
+      <div class="result-head-left">
+        <div class="result-head-title" data-en="Premium Estimate" data-zh="保費估算">Premium Estimate</div>
+        <div class="result-plan-badge" id="resultPlanBadge" data-en="No plan selected" data-zh="未選擇計劃">No plan selected</div>
+      </div>
+      <div class="result-head-right">
+        <button class="sync-btn" onclick="aiSyncPremium()">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><polyline points="13.5 2.5 13.5 5.5 10.5 5.5"/></svg>
+          <span data-en="AI Verify" data-zh="AI 核實">AI Verify</span>
+        </button>
+      </div>
+    </div>
+    <div class="result-body" id="resultBody">
+      <div class="result-empty">
+        <div class="result-empty-icon">◎</div>
+        <div data-en="Select a plan and enter your details above to generate a quote." data-zh="請選擇計劃並輸入上方資料以生成報價。">Select a plan and enter your details above to generate a quote.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOADS -->
+  <div class="dl-wrap" id="dlWrap">
+    <div class="dl-head">
+      <div class="dl-head-left">
+        <div class="dl-head-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" color="#003087"><path d="M8 2v8M5 7l3 3 3-3M2 12h12"/></svg>
+        </div>
+        <div>
+          <div class="dl-head-title" data-en="Official Documents" data-zh="官方文件">Official Documents</div>
+          <div class="dl-head-sub" id="dlSubTitle" data-en="PDFs and links from manulife.com.hk" data-zh="來自 manulife.com.hk 的PDF及連結">PDFs and links from manulife.com.hk</div>
+        </div>
+      </div>
+      <div class="dl-source">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+        manulife.com.hk
+      </div>
+    </div>
+    <div class="dl-body">
+      <div class="dl-grid" id="dlGrid"></div>
+    </div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- TAX CALCULATOR -->
+  <div class="sec-head">
+    <div class="sec-num" data-en="Step 03" data-zh="第三步">Step 03</div>
+    <div class="sec-title" data-en="Tax savings calculator" data-zh="稅務節省計算器">Tax savings calculator</div>
+  </div>
+  <div class="tax-wrap">
+    <div class="tax-head">
+      <div>
+        <div class="tax-head-title" data-en="VHIS Tax Savings" data-zh="自願醫保稅務節省">VHIS Tax Savings</div>
+        <div class="tax-head-sub" data-en="Inland Revenue Ordinance — HK$8,000 deduction per insured person per year" data-zh="根據稅務條例 — 每位受保人每年可扣除HK$8,000">Inland Revenue Ordinance — HK$8,000 deduction per insured person per year</div>
+      </div>
+    </div>
+    <div class="tax-body">
+      <div class="tax-inputs">
+        <div class="field">
+          <label data-en="Annual Income (HKD)" data-zh="年薪（港元）">Annual Income (HKD)</label>
+          <input type="number" id="incomeIn" value="600000" oninput="calcTax()"/>
+          <span class="sub" data-en="Assessable income before deductions" data-zh="扣除前應課稅入息">Assessable income before deductions</span>
+        </div>
+        <div class="field">
+          <label data-en="No. of Insured Persons" data-zh="受保人數目">No. of Insured Persons</label>
+          <select id="numInsured" onchange="calcTax()">
+            <option value="1">1</option><option value="2" selected>2</option>
+            <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+          </select>
+          <span class="sub" data-en="Each qualifies for HK$8,000 deduction" data-zh="每人可享HK$8,000扣除">Each qualifies for HK$8,000 deduction</span>
+        </div>
+        <div class="field">
+          <label data-en="Marginal Tax Rate" data-zh="邊際稅率">Marginal Tax Rate</label>
+          <select id="taxRateSel" onchange="calcTax()">
+            <option value="0.02">2%</option><option value="0.06">6%</option>
+            <option value="0.10">10%</option><option value="0.14">14%</option>
+            <option value="0.17" selected>17% (Standard Rate)</option>
+          </select>
+          <span class="sub" data-en="HK Salaries Tax progressive rate" data-zh="香港薪俸稅累進稅率">HK Salaries Tax progressive rate</span>
+        </div>
+      </div>
+      <div class="tax-metrics">
+        <div class="tax-metric a"><div class="tm-label" data-en="Total Deduction" data-zh="總扣除額">Total Deduction</div><div class="tm-value" id="tmDed">—</div><div class="tm-sub" id="tmDedSub">—</div></div>
+        <div class="tax-metric b"><div class="tm-label" data-en="Annual Tax Saved" data-zh="每年節省稅款">Annual Tax Saved</div><div class="tm-value" id="tmSaved">—</div><div class="tm-sub" id="tmSavedSub">—</div></div>
+        <div class="tax-metric c"><div class="tm-label" data-en="Net Premium Cost" data-zh="實際淨保費">Net Premium Cost</div><div class="tm-value" id="tmNet">—</div><div class="tm-sub" data-en="After tax saving" data-zh="扣除稅務節省後">After tax saving</div></div>
+      </div>
+      <div class="tax-bar-row"><span data-en="Tax saving as % of annual premium" data-zh="稅務節省佔年度保費比例">Tax saving as % of annual premium</span><span id="tmPct">—</span></div>
+      <div class="tax-track"><div class="tax-fill" id="tmBar" style="width:0%"></div></div>
+      <div class="tax-scale"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+      <div class="tax-callout" id="tmNote">
+        <span data-en="Enter your income and select a plan above to see your personalised tax saving calculation." data-zh="請輸入您的收入並在上方選擇計劃，以查看個人化稅務節省計算。">Enter your income and select a plan above to see your personalised tax saving calculation.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- AI PANEL -->
+  <div class="sec-head">
+    <div class="sec-num" data-en="Live Data" data-zh="即時資料">Live Data</div>
+    <div class="sec-title" data-en="Ask about any Manulife VHIS plan" data-zh="查詢任何宏利自願醫保計劃">Ask about any Manulife VHIS plan</div>
+  </div>
+  <div class="ai-wrap">
+    <div class="ai-head">
+      <div class="ai-head-left">
+        <div class="ai-head-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11v.5"/></svg>
+        </div>
+        <div>
+          <div class="ai-head-title" data-en="AI-Powered Live Data" data-zh="AI 驅動即時資料">AI-Powered Live Data</div>
+          <div class="ai-head-sub" data-en="Searches manulife.com.hk in real time · Powered by Claude" data-zh="即時搜尋 manulife.com.hk · 由 Claude 提供">Searches manulife.com.hk in real time · Powered by Claude</div>
+        </div>
+      </div>
+      <div class="ai-live"><div class="ai-live-dot"></div><span>Live</span></div>
+    </div>
+    <div class="ai-body">
+      <div class="ai-chips">
+        <button class="chip" onclick="askAI('What are the latest premium rates for Manulife Shelter VHIS Standard Plan?')" data-en="Shelter rates" data-zh="守護費率">Shelter rates</button>
+        <button class="chip" onclick="askAI('What benefit limits and tiers does Manulife First VHIS Flexi Plan offer?')" data-en="First benefits" data-zh="首選保障">First benefits</button>
+        <button class="chip" onclick="askAI('What deductible options and premiums does Manulife Supreme VHIS Smart tier offer?')" data-en="Supreme Smart" data-zh="晉悅智選">Supreme Smart</button>
+        <button class="chip" onclick="askAI('Compare all 4 Manulife VHIS plans: Shelter, First, Supreme, Supreme Lite')" data-en="Compare all 4 plans" data-zh="比較4個計劃">Compare all 4 plans</button>
+        <button class="chip" onclick="askAI('How does Manulife Supreme Lite VHIS supplementary benefit work with a basic plan?')" data-en="Supreme Lite explained" data-zh="晉悅精簡說明">Supreme Lite explained</button>
+        <button class="chip" onclick="askAI('What VHIS tax deduction rules apply in Hong Kong for 2025?')" data-en="Tax deduction rules" data-zh="稅務扣除規則">Tax deduction rules</button>
+      </div>
+      <div class="ai-status" id="aiStatus" data-en="Ask anything about Manulife VHIS — AI will search the official website for current information." data-zh="查詢任何有關宏利自願醫保的問題 — AI 將即時搜尋官方網站。">Ask anything about Manulife VHIS — AI will search the official website for current information.</div>
+      <div class="ai-input-row">
+        <input class="ai-input" type="text" id="aiInput" placeholder="e.g. Supreme Advance deductibles and premiums for age 45?" onkeydown="if(event.key==='Enter')askAI()"/>
+        <button class="ai-send" id="aiSendBtn" onclick="askAI()" data-en="Ask ↗" data-zh="詢問 ↗">Ask ↗</button>
+      </div>
+      <div class="ai-result" id="aiResult"></div>
+    </div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- COVERAGE -->
+  <div class="sec-head">
+    <div class="sec-num" data-en="Coverage" data-zh="保障比較">Coverage</div>
+    <div class="sec-title" data-en="Benefits comparison — all 4 plans" data-zh="保障比較 — 4個計劃">Benefits comparison — all 4 plans</div>
+  </div>
+  <div class="cov-tabs">
+    <div class="cov-tab on" onclick="swTab('hosp',this)" data-en="Hospitalisation" data-zh="住院">Hospitalisation</div>
+    <div class="cov-tab" onclick="swTab('surg',this)" data-en="Surgical" data-zh="外科手術">Surgical</div>
+    <div class="cov-tab" onclick="swTab('outp',this)" data-en="Outpatient &amp; Cancer" data-zh="門診及癌症">Outpatient &amp; Cancer</div>
+    <div class="cov-tab" onclick="swTab('limits',this)" data-en="Limits &amp; Features" data-zh="限額及特色">Limits &amp; Features</div>
+  </div>
+
+  <div class="cov-panel on" id="cpanel-hosp">
+    <div class="cov-table-wrap"><table class="cov">
+      <thead><tr><th style="width:34%" data-en="Benefit" data-zh="保障項目">Benefit</th><th>Shelter</th><th>First</th><th>Supreme</th><th data-en="Supreme Lite" data-zh="晉悅精簡">Supreme Lite</th></tr></thead>
+      <tbody>
+        <tr><td><div class="td-main" data-en="Room &amp; Board" data-zh="住院病房及膳食">Room &amp; Board</div><div class="td-sub" data-en="Daily hospital accommodation" data-zh="每日住院費用">Daily hospital accommodation</div></td><td class="val">HK$750/day</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main">ICU</div><div class="td-sub" data-en="Intensive care unit" data-zh="深切治療部">Intensive care unit</div></td><td class="val">HK$1,500/day</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main" data-en="Miscellaneous Hospital Charges" data-zh="雜項住院費用">Miscellaneous Hospital Charges</div><div class="td-sub" data-en="Drugs, dressings, lab tests" data-zh="藥物、敷料、化驗費等">Drugs, dressings, lab tests</div></td><td class="val">HK$14,000/yr</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main" data-en="Isolation Room" data-zh="隔離病房">Isolation Room</div></td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Hospital Companion Bed" data-zh="陪伴床">Hospital Companion Bed</div></td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Unknown Pre-existing Conditions" data-zh="不知情的已有病症">Unknown Pre-existing Conditions</div><div class="td-sub" data-en="After 30-day waiting period" data-zh="等待期30天後">After 30-day waiting period</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Congenital Conditions" data-zh="先天性疾病">Congenital Conditions</div><div class="td-sub" data-en="Manifested after age 8" data-zh="8歲後發現及確診">Manifested after age 8</div></td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="cov-panel" id="cpanel-surg">
+    <div class="cov-table-wrap"><table class="cov">
+      <thead><tr><th style="width:34%" data-en="Benefit" data-zh="保障項目">Benefit</th><th>Shelter</th><th>First</th><th>Supreme</th><th>Supreme Lite</th></tr></thead>
+      <tbody>
+        <tr><td><div class="td-main" data-en="Surgeon's Fees" data-zh="外科醫生費用">Surgeon's Fees</div></td><td class="val">HK$25,000/op</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main" data-en="Anaesthetist &amp; Theatre" data-zh="麻醉師及手術室">Anaesthetist &amp; Theatre</div></td><td class="yes">✓</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main" data-en="Day Case Procedures" data-zh="日間手術">Day Case Procedures</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Diagnostic Imaging (Inpatient)" data-zh="住院影像診斷">Diagnostic Imaging (Inpatient)</div><div class="td-sub">MRI · CT · PET</div></td><td class="yes">✓</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="cov-panel" id="cpanel-outp">
+    <div class="cov-table-wrap"><table class="cov">
+      <thead><tr><th style="width:34%" data-en="Benefit" data-zh="保障項目">Benefit</th><th>Shelter</th><th>First</th><th>Supreme</th><th>Supreme Lite</th></tr></thead>
+      <tbody>
+        <tr><td><div class="td-main" data-en="Pre-hospitalisation" data-zh="住院前門診">Pre-hospitalisation</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Post-discharge Follow-up" data-zh="出院後跟進">Post-discharge Follow-up</div><div class="td-sub" data-en="Up to 365 days (Supreme)" data-zh="最多365天（晉悅）">Up to 365 days (Supreme)</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Outpatient Cancer Treatment" data-zh="門診癌症治療">Outpatient Cancer Treatment</div></td><td class="val">HK$80,000/yr</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td><td class="val-g" data-en="No sub-limit" data-zh="無分項限額">No sub-limit</td></tr>
+        <tr><td><div class="td-main" data-en="Kidney Dialysis (Outpatient)" data-zh="門診洗腎">Kidney Dialysis (Outpatient)</div></td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Non-conventional Cancer Treatment" data-zh="非傳統癌症治療">Non-conventional Cancer Treatment</div><div class="td-sub" data-en="Clinical trial / off-label · Worldwide" data-zh="臨床試驗/標籤外 · 全球">Clinical trial / off-label · Worldwide</div></td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Post-confinement Home Nursing" data-zh="出院後家居護理">Post-confinement Home Nursing</div></td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Psychiatric / Mental Health" data-zh="精神科治療">Psychiatric / Mental Health</div></td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="cov-panel" id="cpanel-limits">
+    <div class="cov-table-wrap"><table class="cov">
+      <thead><tr><th style="width:34%" data-en="Feature" data-zh="特色">Feature</th><th>Shelter</th><th>First</th><th>Supreme</th><th>Supreme Lite</th></tr></thead>
+      <tbody>
+        <tr><td><div class="td-main" data-en="Annual Benefit Limit" data-zh="年度保障限額">Annual Benefit Limit</div></td><td class="val">HK$420,000</td><td class="val" data-en="By tier" data-zh="按級別">By tier</td><td class="val">HK$5M / $12M / $30M</td><td class="val-g">HK$30M / US$3.75M</td></tr>
+        <tr><td><div class="td-main" data-en="Deductible Options" data-zh="自付費選項">Deductible Options</div></td><td class="val" data-en="None" data-zh="無">None</td><td class="val">$0 / $8K / $22.8K / $45K / $100K</td><td><div style="font-size:11px;color:var(--navy);font-weight:600;line-height:1.5">Smart: $0 / $22.8K / $45K / $100K<br>Adv/Dlx: $0 / $8K / $22.8K / $45K / $100K</div></td><td class="val">$0 / $22.8K / $45K / $100K</td></tr>
+        <tr><td><div class="td-main" data-en="Benefit Limit Reset" data-zh="保障限額重置">Benefit Limit Reset</div><div class="td-sub" data-en="Double annual limits once per policy" data-zh="保單期內年度限額加倍一次">Double annual limits once per policy</div></td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Guaranteed Renewal" data-zh="保證續保">Guaranteed Renewal</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="VHIS Tax Deduction" data-zh="自願醫保稅務扣除">VHIS Tax Deduction</div><div class="td-sub">HK$8,000 / person / year</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Emergency Assistance (Worldwide)" data-zh="全球緊急援助">Emergency Assistance (Worldwide)</div></td><td class="no">—</td><td class="no">—</td><td class="val" data-en="Adv / Dlx only" data-zh="精選/優選">Adv / Dlx only</td><td class="yes">✓</td></tr>
+        <tr><td><div class="td-main" data-en="Standalone Plan" data-zh="可作獨立計劃">Standalone Plan</div></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="sup-tag" data-en="Attaches to basic plan" data-zh="附加於基本計劃">Attaches to basic plan</td></tr>
+        <tr><td><div class="td-main" data-en="Official Page" data-zh="官方產品頁面">Official Page</div></td>
+          <td><a href="https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-shelter-vhis-standard-plan.html" target="_blank" style="color:var(--green);font-size:11px;font-weight:600">↗ Shelter</a></td>
+          <td><a href="https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-first-vhis-flexi-plan.html" target="_blank" style="color:var(--green);font-size:11px;font-weight:600">↗ First</a></td>
+          <td><a href="https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-vhis-flexi-plan.html" target="_blank" style="color:var(--green);font-size:11px;font-weight:600">↗ Supreme</a></td>
+          <td><a href="https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-lite-vhis-supplementary-benefit.html" target="_blank" style="color:var(--green);font-size:11px;font-weight:600">↗ Supreme Lite</a></td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="sec-divider"></div>
+  <p style="font-size:11px;color:var(--ink-light);line-height:1.8;max-width:800px;">
+    <strong style="color:var(--ink-mid)" data-en="Disclaimer — " data-zh="免責聲明 — ">Disclaimer — </strong>
+    <span data-en="Premium figures are indicative estimates based on Manulife's standard rate schedule (effective December 29, 2025) for non-smoker insured persons aged at next birthday. Rates for ages between schedule points are linearly interpolated. Actual premiums are subject to Manulife underwriting review, health status, and applicable discounts. Tax savings are estimates only — actual savings depend on individual tax circumstances. This tool does not constitute an offer or contract of insurance. Always refer to official Manulife policy documents for full terms." data-zh="保費數字為參考估算，基於宏利標準保費表（於2025年12月29日生效），適用於非吸煙受保人（以最接近生日年齡計算）。費率採用線性插值計算。實際保費受宏利核保審批、健康狀況及適用折扣影響。稅務節省為估算數字，實際節省視乎個人稅務情況而定。本工具不構成保險要約或合約，請參閱宏利官方保單文件以了解完整條款。">Premium figures are indicative estimates based on Manulife's standard rate schedule (effective December 29, 2025) for non-smoker insured persons aged at next birthday. Rates for ages between schedule points are linearly interpolated. Actual premiums are subject to Manulife underwriting review, health status, and applicable discounts. Tax savings are estimates only — actual savings depend on individual tax circumstances. This tool does not constitute an offer or contract of insurance. Always refer to official Manulife policy documents for full terms.</span>
+  </p>
+
+</main>
+
+<footer class="footer">
+  <p><strong>Manulife (International) Limited</strong> &nbsp;宏利人壽保險（國際）有限公司<br/>
+  <a href="https://www.manulife.com.hk" target="_blank">manulife.com.hk</a> &nbsp;·&nbsp; <span data-en="For reference only — not an insurance offer" data-zh="僅供參考 — 不構成保險要約">For reference only — not an insurance offer</span></p>
+</footer>
+
+<script>
+// ── DATA ──
+const DL = {
+  shelter:[
+    {type:'web',icon:'web',en:'Official Product Page',zh:'官方產品頁面',sub:'manulife.com.hk',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-shelter-vhis-standard-plan.html'},
+    {type:'pdf',icon:'pdf',en:'Product Leaflet',zh:'產品單張',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-shelter-vhis-standard-plan-leaflet.pdf'},
+    {type:'pdf',icon:'pdf',en:'Policy Provisions',zh:'保單條款',sub:'S00034-01-000-03 · PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-shelter-vhis-standard-plan-e-pws.pdf'},
+  ],
+  first:[
+    {type:'web',icon:'web',en:'Official Product Page',zh:'官方產品頁面',sub:'manulife.com.hk',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-first-vhis-flexi-plan.html'},
+    {type:'pdf',icon:'pdf',en:'Product Brochure',zh:'產品小冊子',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-first-vhis-flexi-plan.pdf'},
+    {type:'pdf',icon:'prem',en:'Standard Premium Schedule',zh:'標準保費表',sub:'All tiers &amp; deductibles · PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-first-vhis-flexi-plan-premiumtable.pdf'},
+    {type:'web',icon:'web',en:'Download Policy Provisions',zh:'下載保單條款',sub:'All tier combinations',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-first-vhis-flexi-plan.html#download-policy-provisions'},
+  ],
+  supreme:[
+    {type:'web',icon:'web',en:'Official Product Page',zh:'官方產品頁面',sub:'manulife.com.hk',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-vhis-flexi-plan.html'},
+    {type:'pdf',icon:'pdf',en:'Product Brochure',zh:'產品小冊子',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/vhis-supreme-leaflet.pdf'},
+    {type:'pdf',icon:'prem',en:'Standard Premium Schedule',zh:'標準保費表',sub:'Smart · Advance · Deluxe · PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-supreme-vhis-premium.pdf'},
+    {type:'web',icon:'web',en:'Download Policy Provisions',zh:'下載保單條款',sub:'All tier combinations',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-vhis-flexi-plan.html#download-policy-provisions'},
+    {type:'pdf',icon:'pdf',en:'Emergency Assistance (Asia)',zh:'緊急援助（亞洲）',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/emergency-assistance-benefits-provisions.pdf'},
+    {type:'pdf',icon:'pdf',en:'Emergency Assistance (Worldwide)',zh:'緊急援助（全球）',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/prc-and-worldwide-emergency-assistance-benefits-provisions.pdf'},
+  ],
+  lite:[
+    {type:'web',icon:'web',en:'Official Product Page',zh:'官方產品頁面',sub:'manulife.com.hk',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-lite-vhis-supplementary-benefit.html'},
+    {type:'pdf',icon:'pdf',en:'Product Leaflet',zh:'產品單張',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-supreme-lite-vhis-supplementary-benefit.pdf'},
+    {type:'pdf',icon:'prem',en:'Standard Premium Schedule',zh:'標準保費表',sub:'All tiers &amp; deductibles · PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/manulife-supreme-lite-vhis-supplementary-benefit-premium-schedule.pdf'},
+    {type:'web',icon:'web',en:'Download Supplementary Provisions',zh:'下載附加保障條款',sub:'All combinations',href:'https://www.manulife.com.hk/en/individual/products/health/vhis/voluntary-health-insurance-scheme/manulife-supreme-lite-vhis-supplementary-benefit.html#download-policy-provisions'},
+    {type:'pdf',icon:'pdf',en:'Emergency Assistance (Asia)',zh:'緊急援助（亞洲）',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/emergency-assistance-benefits-provisions.pdf'},
+    {type:'pdf',icon:'pdf',en:'Emergency Assistance (Worldwide)',zh:'緊急援助（全球）',sub:'PDF',href:'https://www.manulife.com.hk/content/dam/insurance/hk/en/documents/products/health/prc-and-worldwide-emergency-assistance-benefits-provisions.pdf'},
+  ]
+};
+
+const PD = {
+  // Shelter rates: [Female, Male] per age — Official Standard Premium Schedule S00034-01-000-03, effective 29 Jun 2025
+  shelter:{en:{name:'Shelter',full:'Manulife Shelter VHIS Standard Plan',type:'Standard Plan',limit:'HK$420,000'},zh:{name:'守護',full:'宏利守護自願醫保標準計劃',type:'標準計劃',limit:'HK$420,000'},tiers:null,deds:[0],genderRates:{
+    F:{0:2135,1:2011,2:1878,3:1765,4:1662,5:1556,6:1454,7:1370,8:1288,9:1208,10:1172,11:1151,12:1127,13:1103,14:1082,15:1103,16:1127,17:1151,18:1248,19:1348,20:1452,21:1556,22:1647,23:1708,24:1732,25:1750,26:1791,27:1823,28:1849,29:1873,30:1887,31:1916,32:1944,33:2040,34:2085,35:2140,36:2200,37:2268,38:2337,39:2409,40:2481,41:2565,42:2649,43:2734,44:2819,45:2988,46:3151,47:3312,48:3476,49:3640,50:3809,51:3971,52:4241,53:4489,54:4710,55:4922,56:5116,57:5310,58:5541,59:5821,60:6157,61:6673,62:7068,63:7475,64:7905,65:8420,66:8800,67:9187,68:9583,69:9998,70:10426,71:10880,72:11360,73:11855,74:12259,75:12629,76:13159,77:13696,78:14237,79:14778,80:15394,81:15859},
+    M:{0:2217,1:2095,2:1965,3:1859,4:1758,5:1657,6:1560,7:1466,8:1371,9:1273,10:1237,11:1212,12:1188,13:1166,14:1270,15:1297,16:1324,17:1349,18:1441,19:1532,20:1628,21:1723,22:1822,23:1891,24:1961,25:2032,26:2084,27:2121,28:2179,29:2258,30:2362,31:2486,32:2597,33:2702,34:2825,35:2925,36:3037,37:3144,38:3256,39:3372,40:3504,41:3615,42:3738,43:3876,44:4023,45:4198,46:4344,47:4476,48:4586,49:4678,50:4751,51:4808,52:4847,53:4897,54:4955,55:5078,56:5189,57:5342,58:5525,59:5741,60:5998,61:6390,62:6807,63:7222,64:7640,65:8074,66:8318,67:8647,68:9013,69:9414,70:9853,71:10305,72:10773,73:11301,74:11724,75:12152,76:12737,77:13326,78:13919,79:14519,80:15191,81:15710}
+  }},
+  first:{en:{name:'First',full:'Manulife First VHIS Flexi Plan',type:'Flexi Plan',limit:'By tier'},zh:{name:'首選',full:'宏利首選自願醫保靈活計劃',type:'靈活計劃',limit:'按級別'},tiers:['Standard','Plus','Premier'],tiersCN:['標準','增強','優越'],deds:[0,8000,22800,45000,100000],rates:{Standard:{0:[3800,2800,2200,1900,1600],5:[3800,2800,2200,1900,1600],10:[3800,2800,2200,1900,1600],18:[3800,2800,2200,1900,1600],25:[5200,3800,2900,2500,2100],30:[6800,4900,3700,3200,2700],35:[8900,6400,4800,4100,3500],40:[11500,8300,6200,5300,4500],45:[14900,10700,8000,6800,5800],48:[17200,12300,9200,7800,6600],50:[19800,14200,10600,9000,7600],55:[27100,19400,14500,12300,10400],60:[37100,26600,19900,16800,14300],65:[50800,36400,27200,23100,19600],70:[69500,49800,37200,31600,26800],75:[95100,68100,50900,43200,36600],81:[130000,93100,69600,59100,50100]},Plus:{0:[5500,4000,3100,2700,2200],5:[5500,4000,3100,2700,2200],10:[5500,4000,3100,2700,2200],18:[5500,4000,3100,2700,2200],25:[7500,5400,4200,3600,3000],30:[9800,7000,5400,4600,3900],35:[12800,9200,7000,6000,5000],40:[16600,11900,9000,7700,6500],45:[21400,15300,11500,9800,8300],48:[24800,17700,13300,11300,9600],50:[28500,20400,15300,13000,11000],55:[39000,27900,20900,17800,15100],60:[53400,38200,28600,24300,20600],65:[73100,52300,39200,33300,28200],70:[100000,71600,53600,45500,38600],75:[136900,98000,73400,62300,52800],81:[187300,134000,100300,85200,72200]},Premier:{0:[8200,5900,4500,3900,3200],5:[8200,5900,4500,3900,3200],10:[8200,5900,4500,3900,3200],18:[8200,5900,4500,3900,3200],25:[11200,8000,6100,5200,4400],30:[14600,10400,7900,6700,5700],35:[19000,13600,10300,8700,7400],40:[24700,17700,13300,11300,9600],45:[31900,22800,17100,14500,12300],48:[36900,26400,19800,16800,14200],50:[42500,30400,22800,19300,16400],55:[58100,41600,31200,26500,22400],60:[79500,56900,42700,36200,30700],65:[108800,77900,58400,49600,42000],70:[148900,106600,79900,67800,57500],75:[203700,145800,109200,92800,78600],81:[278700,199500,149400,126900,107600]}}},
+  supreme:{en:{name:'Supreme',full:'Manulife Supreme VHIS Flexi Plan',type:'Flexi Plan',limit:'HK$5M – $30M'},zh:{name:'晉悅',full:'宏利晉悅自願醫保靈活計劃',type:'靈活計劃',limit:'HK$500萬 – 3,000萬'},tiers:['Smart','Advance','Deluxe'],tiersCN:['智選','精選','優選'],deds_by_tier:{Smart:[0,22800,45000,100000],Advance:[0,8000,22800,45000,100000],Deluxe:[0,8000,22800,45000,100000]},rates:{Smart:{0:[7003,3401,2494,2234],5:[7003,3401,2494,2234],10:[7003,3401,2494,2234],18:[7003,3401,2494,2234],25:[9240,4290,3010,2680],30:[10980,4937,3286,2698],35:[12380,5824,3589,2961],40:[13073,6318,3942,3353],45:[15734,7540,5000,4320],48:[18438,9050,6146,5413],50:[21200,10200,6900,6050],55:[29800,14200,9650,8550],60:[42900,21000,14700,13200],65:[63100,31900,23800,21800],70:[92500,48500,38900,36400],75:[131700,72500,62000,58700],81:[186800,113100,102400,98400]},Advance:{0:[10500,7500,4800,3800,3100],5:[10500,7500,4800,3800,3100],10:[10500,7500,4800,3800,3100],18:[10500,7500,4800,3800,3100],25:[14700,10300,6550,5200,4150],30:[16437,11370,6569,5729,3899],35:[20400,14100,8400,7200,4900],40:[25500,17600,10900,9200,6200],45:[32100,22500,14200,12000,8000],48:[27546,19373,11196,9763,7820],50:[31600,22200,12900,11200,8900],55:[45300,32200,19100,16800,13400],60:[66000,48200,29500,26400,21300],65:[97100,73500,46100,41700,33900],70:[141700,111500,72400,65700,53600],75:[201100,163200,110400,99700,82200],81:[294500,246300,174800,155400,129600]},Deluxe:{0:[18000,11500,8500,6800,5400],5:[18000,11500,8500,6800,5400],10:[18000,11500,8500,6800,5400],18:[18000,11500,8500,6800,5400],25:[24300,15350,11300,8900,7150],30:[27990,16754,12460,9693,8069],35:[35100,21200,15900,12300,9900],40:[44600,27000,20500,15800,12600],45:[56800,34700,26500,20400,16200],48:[48418,26602,21797,18603,14141],50:[55900,30800,25400,21600,16500],55:[81700,45800,38300,32700,25100],60:[120100,69800,58800,50400,38800],65:[175800,107000,90200,77400,60000],70:[253800,161000,136200,116300,90500],75:[354600,234000,199100,169300,133200],81:[504000,349600,300200,256700,206900]}}},
+  lite:{en:{name:'Supreme Lite',full:'Manulife Supreme Lite VHIS Supplementary Benefit',type:'Supplementary',limit:'HK$30M / US$3.75M'},zh:{name:'晉悅精簡',full:'宏利晉悅精簡自願醫保附加保障',type:'附加計劃',limit:'HK$3,000萬 / US$375萬'},tiers:['Smart','Advance','Deluxe'],tiersCN:['智選','精選','優選'],deds:[0,22800,45000,100000],rates:{Smart:{0:[4200,2100,1600,1400],5:[4200,2100,1600,1400],10:[4200,2100,1600,1400],18:[4200,2100,1600,1400],25:[5800,2900,2100,1900],30:[6900,3400,2500,2200],35:[7800,3800,2800,2500],40:[8500,4200,3100,2800],45:[10200,5000,3700,3300],48:[12100,5900,4300,3800],50:[14200,6900,5100,4500],55:[20500,9900,7300,6500],60:[29800,14400,10600,9400],65:[43600,21100,15500,13800],70:[63600,30800,22700,20100],75:[92900,44900,33100,29300],81:[135600,65600,48400,42800]},Advance:{0:[6500,3200,2400,2100],5:[6500,3200,2400,2100],10:[6500,3200,2400,2100],18:[6500,3200,2400,2100],25:[8900,4400,3200,2900],30:[10600,5200,3800,3400],35:[12400,6100,4400,3900],40:[15500,7600,5500,4900],45:[20100,9900,7200,6400],48:[17800,8700,6300,5600],50:[22000,10800,7800,6900],55:[31800,15600,11300,10000],60:[46200,22700,16400,14600],65:[67500,33200,24000,21300],70:[98600,48500,35000,31100],75:[144000,70800,51200,45400],81:[210200,103400,74800,66300]},Deluxe:{0:[11300,5500,4100,3600],5:[11300,5500,4100,3600],10:[11300,5500,4100,3600],18:[11300,5500,4100,3600],25:[15500,7600,5600,4900],30:[18100,8900,6500,5700],35:[22600,11100,8100,7200],40:[28800,14100,10300,9100],45:[37400,18400,13400,11900],48:[31200,15300,11100,9800],50:[37200,18200,13300,11700],55:[53800,26400,19200,17000],60:[78200,38400,27900,24700],65:[114300,56100,40800,36100],70:[167000,82000,59600,52700],75:[243900,119800,87100,77000],81:[356200,174900,127200,112500]}}},
+};
+
+let CK = null, lang = 'en', annualPrem = null;
+
+const L = (a, b) => lang === 'zh' ? b : a;
+const f = n => 'HK$' + Math.round(n).toLocaleString();
+
+// ── LANGUAGE ──
+function setLang(l, btn) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const v = el.getAttribute('data-' + l);
+    if (v !== null) el.innerHTML = v;
+  });
+  document.getElementById('heroTitle').innerHTML = l === 'zh'
+    ? '宏利自願醫保<br/><em>保費及保障指南</em>'
+    : 'Manulife VHIS<br/><em>Premium &amp; Coverage Guide</em>';
+  document.getElementById('heroSub').textContent = l === 'zh'
+    ? '四個認可計劃，由基本保障到全面環球保障，為您量身訂做。'
+    : 'Four certified plans designed around your needs — from essential protection to comprehensive global cover.';
+  document.getElementById('topbarCenter').textContent = l === 'zh' ? '自願醫保保費計算' : 'VHIS Premium Quotation';
+  if (CK) { refreshTierDD(); renderDL(CK); }
+  calc(); calcTax();
+}
+
+// ── RENDER DOWNLOADS ──
+function renderDL(key) {
+  const items = DL[key];
+  const EMOJI = { pdf: '📄', web: '🔗', prem: '📊' };
+  document.getElementById('dlGrid').innerHTML = items.map(d => `
+    <a class="dl-item" href="${d.href}" target="_blank" rel="noopener">
+      <div class="dl-icon-wrap ${d.icon}">${EMOJI[d.icon]}</div>
+      <div class="dl-item-text">
+        <div class="dl-item-title">${lang === 'zh' ? d.zh : d.en}</div>
+        <div class="dl-item-sub">${d.sub}</div>
+        <span class="dl-badge ${d.type}">${d.type === 'pdf' ? 'PDF' : 'Web'}</span>
+      </div>
+    </a>`).join('');
+  document.getElementById('dlWrap').className = 'dl-wrap show';
+}
+
+// ── PLAN SELECT ──
+function selPlan(key, el) {
+  CK = key;
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  const p = PD[key], m = p[lang] || p.en;
+  document.getElementById('resultPlanBadge').textContent = (lang === 'zh' ? p.zh : p.en).full;
+  document.getElementById('kpiPlanVal').textContent = (lang === 'zh' ? p.zh : p.en).name;
+  document.getElementById('kpiLimitVal').textContent = (lang === 'zh' ? p.zh : p.en).limit;
+  document.getElementById('kpiTypeVal').textContent = (lang === 'zh' ? p.zh : p.en).type;
+  document.getElementById('kpiLimitSub').textContent = L('Per policy year', '每保單年度');
+  document.getElementById('kpiTypeSub').textContent = L('Plan category', '計劃類別');
+  ['kpiPlan','kpiLimit','kpiType'].forEach(id => document.getElementById(id).classList.add('highlight'));
+  document.getElementById('suppAlert').className = 'supp-alert' + (key === 'lite' ? ' show' : '');
+  // Show/hide gender field (Shelter only)
+  const gFg2 = document.getElementById('genderFg');
+  if (gFg2) gFg2.style.display = key === 'shelter' ? 'block' : 'none';
+
+  const hasTiers = !!p.tiers;
+  document.getElementById('tierFg').style.display = hasTiers ? 'block' : 'none';
+  if (hasTiers) { refreshTierDD(); document.getElementById('tierSel').value = ''; resetDed(); }
+  else populateDed(p.deds);
+  renderDL(key);
+  calc();
+}
+
+function refreshTierDD() {
+  if (!CK) return;
+  const p = PD[CK]; if (!p.tiers) return;
+  const sel = document.getElementById('tierSel'), prev = sel.value;
+  sel.innerHTML = `<option value="">${L('— Select tier —', '— 選擇計劃級別 —')}</option>`;
+  p.tiers.forEach((k, i) => { const o = document.createElement('option'); o.value = k; o.textContent = lang === 'zh' && p.tiersCN ? p.tiersCN[i] : k; sel.appendChild(o); });
+  if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+}
+
+function onTierChange() {
+  if (!CK) return;
+  const tier = document.getElementById('tierSel').value, p = PD[CK];
+  if (!tier) { resetDed(); calc(); return; }
+  const deds = CK === 'supreme' ? p.deds_by_tier[tier] : p.deds;
+  populateDed(deds); calc();
+}
+
+function resetDed() {
+  document.getElementById('dedSel').innerHTML = `<option value="">${L('— Select tier first —', '— 請先選擇級別 —')}</option>`;
+  document.getElementById('dedFg').classList.remove('active');
+}
+
+function populateDed(deds) {
+  const sel = document.getElementById('dedSel'), prev = sel.value;
+  sel.innerHTML = `<option value="">${L('— Select deductible —', '— 選擇自付費 —')}</option>`;
+  deds.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = d === 0 ? L('HK$0 (No deductible)', 'HK$0（無自付費）') : 'HK$' + d.toLocaleString(); sel.appendChild(o); });
+  if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+  document.getElementById('dedFg').classList.add('active');
+}
+
+// ── INTERPOLATION ──
+function interp(rObj, age, di) {
+  const ages = Object.keys(rObj).map(Number).sort((a,b)=>a-b);
+  const ca = Math.max(ages[0], Math.min(ages[ages.length-1], age));
+  if (rObj[ca] !== undefined) { const v = rObj[ca]; return Array.isArray(v) ? v[di] : v; }
+  for (let i = 0; i < ages.length-1; i++) {
+    if (ca >= ages[i] && ca <= ages[i+1]) {
+      const t = (ca - ages[i]) / (ages[i+1] - ages[i]);
+      const v0 = rObj[ages[i]], v1 = rObj[ages[i+1]];
+      return Math.round((Array.isArray(v0)?v0[di]:v0) + t * ((Array.isArray(v1)?v1[di]:v1) - (Array.isArray(v0)?v0[di]:v0)));
+    }
+  }
+  return null;
+}
+
+// ── CALC ──
+function calc() {
+  if (!CK) return;
+  const p = PD[CK];
+  const age = parseInt(document.getElementById('ageIn').value);
+  const ded = document.getElementById('dedSel').value;
+  const tier = document.getElementById('tierSel').value;
+  const gender = document.getElementById('genderSel').value; // 'F' or 'M'
+  const body = document.getElementById('resultBody');
+
+  // Show/hide gender field — only Shelter has gender-differentiated rates
+  const gFg = document.getElementById('genderFg');
+  if (gFg) gFg.style.display = CK === 'shelter' ? 'block' : 'none';
+
+  if (p.tiers && !tier) { body.innerHTML = `<div class="result-empty"><div class="result-empty-icon">◐</div><div>${L('Please select a plan tier.','請選擇計劃級別。')}</div></div>`; annualPrem=null; calcTax(); return; }
+  if (!ded) { body.innerHTML = `<div class="result-empty"><div class="result-empty-icon">◑</div><div>${L('Please select a deductible amount.','請選擇年度自付費。')}</div></div>`; annualPrem=null; calcTax(); return; }
+  if (isNaN(age)||age<0||age>81) { body.innerHTML = `<div class="result-empty"><div class="result-empty-icon">◒</div><div>${L('Please enter a valid age (0 – 81).','請輸入有效年齡（0–81歲）。')}</div></div>`; annualPrem=null; calcTax(); return; }
+
+  let rObj, deds, di, annual;
+  if (CK === 'shelter') {
+    // Use gender-specific rate table; rates are exact per age (no array, just lookup)
+    const gRates = p.genderRates[gender];
+    const clampedAge = Math.max(0, Math.min(81, age));
+    annual = gRates[clampedAge];
+  } else {
+    rObj = p.rates[tier]; deds = CK === 'supreme' ? p.deds_by_tier[tier] : p.deds; di = deds.indexOf(parseInt(ded));
+    if (di === -1 || !rObj) { body.innerHTML = `<div class="result-empty"><div class="result-empty-icon">✕</div><div>${L('Invalid selection.','選擇無效。')}</div></div>`; annualPrem=null; calcTax(); return; }
+    annual = interp(rObj, age, di);
+  }
+
+  if (!annual) { body.innerHTML = `<div class="result-empty"><div>${L('Rate not available.','此選擇暫無費率資料。')}</div></div>`; annualPrem=null; calcTax(); return; }
+  annualPrem = annual;
+  const monthly = Math.round(annual / 12);
+  const tierLbl = tier ? (lang==='zh'&&p.tiersCN ? p.tiersCN[p.tiers.indexOf(tier)] : tier) : '';
+  const planLbl = (lang==='zh'?p.zh:p.en).name + (tierLbl ? ' · ' + tierLbl : '');
+  const dedLbl = parseInt(ded)===0 ? L('HK$0','HK$0') : 'HK$' + parseInt(ded).toLocaleString();
+  const genderLbl = CK === 'shelter' ? ` · ${gender === 'F' ? L('Female','女性') : L('Male','男性')}` : '';
+  const n = parseInt(document.getElementById('numInsured').value)||1;
+  const r = parseFloat(document.getElementById('taxRateSel').value)||0.17;
+  const taxSaved = Math.round(Math.min(annual, 8000*n) * r);
+  body.innerHTML = `
+    <div class="prem-grid fade-up">
+      <div class="prem-box ann">
+        <div class="prem-box-label">${L('Annual Premium','年度保費')}</div>
+        <div class="prem-box-amount">${f(annual)}<small>/ ${L('year','年')}</small></div>
+        <div class="prem-box-note">${L('Standard rate — non-smoker','標準費率 — 非吸煙者')}${genderLbl}</div>
+      </div>
+      <div class="prem-box mon">
+        <div class="prem-box-label">${L('Monthly Equivalent','每月相當費用')}</div>
+        <div class="prem-box-amount">${f(monthly)}<small>/ ${L('month','月')}</small></div>
+        <div class="prem-box-note">${L('Annual premium ÷ 12','年度保費 ÷ 12')}</div>
+      </div>
+      <div class="prem-box tax">
+        <div class="prem-box-label">${L('Est. Tax Saving','估計稅務節省')}</div>
+        <div class="prem-box-amount">${f(taxSaved)}<small>/ ${L('year','年')}</small></div>
+        <div class="prem-box-note">${L('See calculator below ↓','見下方計算器 ↓')}</div>
+      </div>
+    </div>
+    <div class="result-info">
+      <span>ℹ</span>
+      <span>${L('Estimate for','估算')} <strong>${planLbl}</strong> · ${L('Age','年齡')} <strong>${age}</strong>${CK==='shelter'?genderLbl:' · '+L('Deductible','自付費')+' <strong>'+dedLbl+'</strong>'}. ${L('Download the official Premium Schedule above for exact figures.','請下載上方官方保費表以獲取確切費率。')}</span>
+    </div>`;
+  calcTax();
+}
+
+// ── TAX ──
+function calcTax() {
+  const n = parseInt(document.getElementById('numInsured').value)||1;
+  const r = parseFloat(document.getElementById('taxRateSel').value)||0.17;
+  const maxDed = 8000*n, saved = Math.round(maxDed*r);
+  document.getElementById('tmDed').textContent = f(maxDed);
+  document.getElementById('tmDedSub').textContent = `${n} ${L('person(s)','人')} × HK$8,000`;
+  document.getElementById('tmSaved').textContent = f(saved);
+  document.getElementById('tmSavedSub').textContent = `${L('At','按')} ${Math.round(r*100)}% ${L('rate','稅率')}`;
+  if (annualPrem) {
+    const net = Math.max(0, annualPrem - saved);
+    document.getElementById('tmNet').textContent = f(net);
+    const pct = Math.min(100, Math.round(saved / annualPrem * 100));
+    document.getElementById('tmPct').textContent = pct + '%';
+    document.getElementById('tmBar').style.width = pct + '%';
+    document.getElementById('tmNote').textContent = L(
+      `Your annual premium of ${f(annualPrem)} qualifies for a HK Salaries Tax deduction of ${f(maxDed)} (${n} insured × HK$8,000). At a ${Math.round(r*100)}% marginal rate, you save ${f(saved)} in tax annually — reducing your effective net cost to ${f(net)}.`,
+      `您的年度保費${f(annualPrem)}可享薪俸稅扣除${f(maxDed)}（${n}名受保人×HK$8,000）。按${Math.round(r*100)}%邊際稅率計算，每年節省稅款${f(saved)}，實際淨保費成本降至${f(net)}。`);
+  } else {
+    document.getElementById('tmNet').textContent = '—';
+    document.getElementById('tmPct').textContent = '—';
+    document.getElementById('tmBar').style.width = '0%';
+    document.getElementById('tmNote').textContent = L(
+      `With ${n} insured person${n>1?'s':''} at a ${Math.round(r*100)}% marginal tax rate, your estimated annual tax saving is ${f(saved)}. Select a plan and enter your details above to see the net premium cost.`,
+      `${n}名受保人按${Math.round(r*100)}%邊際稅率計算，估計每年節省稅款${f(saved)}。請在上方選擇計劃並輸入資料以查看淨保費成本。`);
+  }
+}
+
+// ── AI ──
+async function askAI(preset) {
+  const input = document.getElementById('aiInput');
+  const btn = document.getElementById('aiSendBtn');
+  const status = document.getElementById('aiStatus');
+  const result = document.getElementById('aiResult');
+  const q = preset || input.value.trim();
+  if (!q) return;
+  if (!preset) input.value = '';
+  btn.disabled = true; btn.textContent = L('Searching…','搜尋中…');
+  status.textContent = L('Searching manulife.com.hk for the latest data…','正在搜尋 manulife.com.hk 最新資料…');
+  result.className = 'ai-result'; result.textContent = '';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+        system: `You are a Manulife HK VHIS expert. The 4 plans: Shelter (Standard, HK$420K/yr, no deductible), First (Flexi, 3 tiers Standard/Plus/Premier, deds $0/$8K/$22.8K/$45K/$100K), Supreme (Flexi, Smart tier deds $0/$22.8K/$45K/$100K; Advance/Deluxe deds $0/$8K/$22.8K/$45K/$100K), Supreme Lite (Supplementary, 3 tiers, deds $0/$22.8K/$45K/$100K). Always search manulife.com.hk for current data. Be concise and precise. ${lang==='zh'?'Reply in Traditional Chinese.':'Reply in English.'}`,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: `Search manulife.com.hk for: ${q}` }] })
+    });
+    const data = await res.json();
+    let ans = '';
+    if (data.content) data.content.forEach(b => { if (b.type === 'text') ans += b.text; });
+    if (!ans && data.error) ans = `Error: ${data.error.message}`;
+    if (!ans) ans = L('No results found. Please visit manulife.com.hk directly.', '未能獲取結果，請直接訪問 manulife.com.hk。');
+    result.textContent = ans; result.className = 'ai-result show';
+    status.textContent = L('Done — sourced from manulife.com.hk', '完成 — 資料來源：manulife.com.hk');
+  } catch(e) {
+    result.textContent = L('Connection failed. Please visit manulife.com.hk directly.\n', '連接失敗，請直接訪問 manulife.com.hk。\n') + e.message;
+    result.className = 'ai-result show';
+    status.textContent = L('Connection failed.','連接失敗。');
+  }
+  btn.disabled = false; btn.textContent = L('Ask ↗','詢問 ↗');
+}
+
+async function aiSyncPremium() {
+  if (!CK) { alert(L('Please select a plan first.','請先選擇計劃。')); return; }
+  const p = PD[CK], age = document.getElementById('ageIn').value;
+  const ded = document.getElementById('dedSel').value, tier = document.getElementById('tierSel').value;
+  const m = (lang==='zh' ? p.zh : p.en).full;
+  const q = `What is the current standard annual premium on manulife.com.hk for ${m}${tier?' '+tier+' tier':''}${age?' age '+age:''}${ded&&ded!=='0'?' with HK$'+parseInt(ded).toLocaleString()+' annual deductible':ded==='0'?' no deductible':''}?`;
+  document.getElementById('aiInput').value = q;
+  await askAI(q);
+  document.getElementById('aiResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function swTab(id, el) {
+  document.querySelectorAll('.cov-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.cov-panel').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('cpanel-' + id).classList.add('on');
+}
+
+calcTax();
+</script>
+</body>
+</html>
